@@ -1,0 +1,24 @@
+.board {
+  border-spacing: 0;
+}
+
+.board td {
+  height: 30px;
+  width: 30px;
+  text-align: center;
+  padding: 0;
+}
+
+.board td:hover {
+  cursor: pointer;
+}
+
+.board td:nth-child(1),
+.board td:nth-child(2) {
+  border-right: 1px solid black;
+}
+
+.board tr:nth-child(2) td {
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
