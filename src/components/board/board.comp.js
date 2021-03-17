@@ -1,51 +1,59 @@
 import * as styles from "./board.comp.module.css";
-import produce from "immer";
 import { useState } from "react";
+import * as gameService from "../../services/game.service";
+import { pipe } from "../../utils/index";
+const {
+  playerMove,
+  botMove,
+  initState,
+  isEmpty,
+  checkGameStatus,
+  isGameOver,
+} = gameService;
 
 function Board() {
-  const [state, setState] = useState({
-    turn: 4,
-    board: [
-      ["", "X", "O"],
-      ["", "X", ""],
-      ["", "O", ""],
-    ],
-  });
+  const [state, setState] = useState(initState());
+  const [resultMsg, setResultMsg] = useState("");
+  const { board } = state;
 
-  const play = ({ posX, posY }, curState) => {
-    if (state.board[posY][posX] === "") {
-      const nextState = produce(curState, (draft) => {
-        draft.board[posY][posX] = "X";
-        draft.turn++;
-      });
-      setState(nextState);
+  const play = (pos) => {
+    const nextState = pipe(
+      playerMove,
+      checkGameStatus,
+      botMove,
+      checkGameStatus
+    )({ curState: state, pos });
+    setState(nextState);
+    const [isOver, message] = isGameOver(nextState);
+    if (isOver) {
+      setResultMsg(message);
     }
   };
 
-  const isWon = ({ posX, posY }, curState) => {
-    if (curState.turn < 5) {
-      return false;
-    }
+  const restart = () => {
+    setState(initState());
+    setResultMsg("");
   };
 
   return (
-    <table className={styles.board}>
-      <thead></thead>
-      <tbody>
-        {state.board.map((row, rowIdx) => (
-          <tr key={rowIdx}>
-            {row.map((cell, cellIdx) => (
-              <td
-                key={cellIdx}
-                onClick={() => play({ posX: cellIdx, posY: rowIdx }, state)}
-              >
-                {cell}
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <>
+      <table className={styles.board}>
+        <thead></thead>
+        <tbody>
+          {[0, 3, 6].map((row) => (
+            <tr key={row}>
+              {[0, 1, 2].map((col) => (
+                <td key={col} onClick={() => play(row + col, state)}>
+                  {isEmpty(board[row + col]) ? "" : board[row + col]}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <h5>{resultMsg}</h5>
+      <button onClick={restart}>Restart</button>
+    </>
   );
 }
 

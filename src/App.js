@@ -1,3 +1,4 @@
+import { createStore } from "redux";
 import "./App.css";
 import { Board } from "./components";
 
