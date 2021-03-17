@@ -77,7 +77,7 @@ export const isGameOver = (curState) => {
         resultString = "You win!";
         break;
       case PLAYER_LOST:
-        resultString = "You lost KEKW";
+        resultString = "You lost!";
         break;
       default:
         break;

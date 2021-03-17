@@ -16,7 +16,7 @@ function Board() {
   const [resultMsg, setResultMsg] = useState("");
   const { board } = state;
 
-  const play = (pos) => {
+  const move = (pos) => {
     const nextState = pipe(
       playerMove,
       checkGameStatus,
@@ -43,7 +43,7 @@ function Board() {
           {[0, 3, 6].map((row) => (
             <tr key={row}>
               {[0, 1, 2].map((col) => (
-                <td key={col} onClick={() => play(row + col, state)}>
+                <td key={col} onClick={() => move(row + col, state)}>
                   {isEmpty(board[row + col]) ? "" : board[row + col]}
                 </td>
               ))}
