@@ -143,7 +143,6 @@ export const checkGameStatus = (curState) => {
   const nextState = produce(curState, (draft) => {
     draft.status = status;
   });
-  console.log(nextState);
   return nextState;
 };
 
@@ -151,10 +150,5 @@ const check = (lastPos, curState) => {
   const { board, turn } = curState;
   const char = turn % 2 !== 0 ? PLAYER_CHAR : BOT_CHAR;
   const winningCases = WINNING_TABLE[lastPos];
-  console.log(
-    lastPos,
-    winningCases,
-    winningCases.some((c) => c.every((pos) => board[pos] === char))
-  );
   return winningCases.some((c) => c.every((pos) => board[pos] === char));
 };
