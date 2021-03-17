@@ -17,6 +17,7 @@ function Board() {
   const { board } = state;
 
   const move = (pos) => {
+    //Can be abstracted to another function in service
     const nextState = pipe(
       playerMove,
       checkGameStatus,
@@ -40,6 +41,7 @@ function Board() {
       <table className={styles.board}>
         <thead></thead>
         <tbody>
+          {/* Can be abstracted to another function in service */}
           {[0, 3, 6].map((row) => (
             <tr key={row}>
               {[0, 1, 2].map((col) => (
